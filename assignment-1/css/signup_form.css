@@ -1,0 +1,31 @@
+body {
+	background-color: #8DB6CD;
+}
+
+.signupform{
+	background-color: #f5f5f5;
+	max-width: 800px;
+	margin: auto;
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.75);
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+hr {
+	display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0; 
+}
+
+.signupform a {
+	text-decoration: none;
+	color: black;
+}
