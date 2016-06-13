@@ -359,6 +359,30 @@
 			return $rows;
 		}
 		
+		public function get_user_likes_post($post_id, $user_id){
+			$db = new DBConnect;
+			$conn = $db->connect_db();
+			$count = 0;
+
+			//Check in the DB
+			$query = "SELECT * FROM post_likes WHERE post_id='$post_id' AND user_id='$user_id'";
+			if($result = $conn->query($query)){
+				while($row = $result->fetch_assoc()){
+					$count++;
+					break;
+				}
+			}
+
+			$result->free();
+			$conn->close();
+			
+			if($count > 0){
+				return true;
+			} else{
+				return false;
+			}
+		}
+		
 		private function hash_password($pwd){
 			// http://www.php.net/manual/en/function.password-hash.php
 			$options = [

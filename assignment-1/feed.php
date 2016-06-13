@@ -66,6 +66,7 @@
 						<form action="phpscripts/post.php" method="POST" id="new-post">
 
 								<label for="content">New Post</label>
+								<input id="post_uid" value=<?php echo $user["id"]; ?> name="uid" style="display:none;"/>
 								<textarea class="form-control" style="resize: none;" rows="4" cols="50" id="post_content" name="content" required></textarea>
 								</br>
 								<a class="btn btn-default createpost">Submit Post</a>
@@ -101,6 +102,7 @@
 			$('.createpost').click(function () {
 
 				var content = $('#post_content').val();
+				var user_id = $('#post_uid').val();
 				if(content.length <= 0){
 					alert("Nothing Entered!");
 				} else{
@@ -109,13 +111,22 @@
 					$.ajax
 					({
 						url: 'phpscripts/post.php',
-						data: {"uid": <?php echo $user["id"]; ?>, "content": content},
+						data: {"uid": user_id, "content": content},
 						type: 'post',
 						success: function (result) {
 							$('#post_content').val('');
 							$('#submitting').hide();
 							$('#new-post').show();
-							$("#posts").load('posts.php');
+							if(result == "Success"){
+								$("#posts").load('posts.php', function() {
+									$('#postInfoMsgCallback').html(
+										"<div class='alert alert-success alert-dismissible' role='alert'>"+
+											"<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+
+											"Post submitted successfully."+
+										"</div>"
+									);
+								});
+							}
 						}
 					});
 				}
