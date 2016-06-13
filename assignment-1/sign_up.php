@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT']."/hgv265/Lecture2/"."globals.php"; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']."/hgv265/assignment-1/"."globals.php"; ?>
 <!DOCTYPE html>
 <html>
 	<head>

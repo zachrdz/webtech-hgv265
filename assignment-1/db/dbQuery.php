@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT']."/hgv265/Lecture2/"."globals.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/hgv265/assignment-1/"."globals.php";
 	include_once $home_path.'error_reporting.php';
 	require_once $home_path.'db/dbConn.php';
 	
@@ -123,12 +123,11 @@
 				
 				$username = $conn->real_escape_string($user["username"]);
 				$uid = $conn->real_escape_string($user["id"]);
-				$profile_pic = $conn->real_escape_string($user["profile_pic"]);
 				$content = $conn->real_escape_string($content);
 				
 				$result = $conn->query(
-					"INSERT INTO posts (`user_id`, `username`, `content`, `profile_pic`)
-					VALUES ('$uid', '$username', '$content', '$profile_pic')"
+					"INSERT INTO posts (`user_id`, `username`, `content`)
+					VALUES ('$uid', '$username', '$content')"
 				);
 				
 				if($result){
@@ -143,6 +142,221 @@
 			} else{
 				return "Failure";
 			}
+		}
+
+		public function delete_post($user, $post_id){
+
+			if(null != $user && null != $post_id){
+				$db = new DBConnect;
+				$conn = $db->connect_db();
+
+				$uid = $conn->real_escape_string($user["id"]);
+				$pid = $conn->real_escape_string($post_id);
+
+				$result = $conn->query(
+					"DELETE FROM posts WHERE id='$pid' AND user_id='$uid'"
+				);
+
+				if($result){
+					$msg = "Success";
+				} else{
+					$msg = $conn->error;
+				}
+
+				$conn->close();
+
+				return $msg;
+			} else{
+				return "Failure";
+			}
+		}
+
+		public function get_all_posts(){
+			$db = new DBConnect;
+			$conn = $db->connect_db();
+			$rows = null;
+
+			//Check in the DB
+			$query = "SELECT * FROM posts ORDER BY id DESC";
+			if($result = $conn->query($query)){
+				while($row = $result->fetch_assoc()){
+					$json[] = $row;
+				}
+
+				if(isset($json)){
+					$rows = json_encode($json);
+				}
+			} else{
+				$result = null;
+			}
+
+			$result->free();
+			$conn->close();
+
+			return $rows;
+		}
+
+		public function get_post_comments($post_id){
+			$db = new DBConnect;
+			$conn = $db->connect_db();
+			$rows = null;
+
+			//Check in the DB
+			$query = "SELECT * FROM comments WHERE id='$post_id'";
+			if($result = $conn->query($query)){
+				while($row = $result->fetch_assoc()){
+					$json[] = $row;
+				}
+
+				if(isset($json)){
+					$rows = json_encode($json);
+				}
+			} else {
+				$result = null;
+			}
+
+			$result->free();
+			$conn->close();
+
+			return $rows;
+		}
+
+		public function create_comment($user, $post_id, $content){
+
+			if(null != $user && null != $content && null != $post_id){
+				$db = new DBConnect;
+				$conn = $db->connect_db();
+
+				$username = $conn->real_escape_string($user["username"]);
+				$uid = $conn->real_escape_string($user["id"]);
+				$pid = $conn->real_escape_string($post_id);
+				$content = $conn->real_escape_string($content);
+
+				$result = $conn->query(
+					"INSERT INTO comments (`user_id`, `post_id`, `username`, `content`)
+					VALUES ('$uid', '$pid', '$username', '$content')"
+				);
+
+				if($result){
+					$msg = "Success";
+				} else{
+					$msg = $conn->error;
+				}
+
+				$conn->close();
+
+				return $msg;
+			} else{
+				return "Failure";
+			}
+		}
+
+		public function delete_comment($user, $comment_id){
+
+			if(null != $user && null != $comment_id){
+				$db = new DBConnect;
+				$conn = $db->connect_db();
+
+				$uid = $conn->real_escape_string($user["id"]);
+				$cid = $conn->real_escape_string($comment_id);
+
+				$result = $conn->query(
+					"DELETE FROM comments WHERE id='$cid' AND user_id='$uid'"
+				);
+
+				if($result){
+					$msg = "Success";
+				} else{
+					$msg = $conn->error;
+				}
+
+				$conn->close();
+
+				return $msg;
+			} else{
+				return "Failure";
+			}
+		}
+
+		public function like_post($user, $post_id){
+
+			if(null != $user && null != $post_id){
+				$db = new DBConnect;
+				$conn = $db->connect_db();
+
+				$username = $conn->real_escape_string($user["username"]);
+				$uid = $conn->real_escape_string($user["id"]);
+				$pid = $conn->real_escape_string($post_id);
+
+				$result = $conn->query(
+					"INSERT INTO post_likes (`post_id`, `user_id`, `username`)
+					VALUES ('$pid', '$uid', '$username')"
+				);
+
+				if($result){
+					$msg = "Success";
+				} else{
+					$msg = $conn->error;
+				}
+
+				$conn->close();
+
+				return $msg;
+			} else{
+				return "Failure";
+			}
+		}
+
+		public function unlike_post($user, $post_id){
+
+			if(null != $user && null != $post_id){
+				$db = new DBConnect;
+				$conn = $db->connect_db();
+
+				$username = $conn->real_escape_string($user["username"]);
+				$uid = $conn->real_escape_string($user["id"]);
+				$pid = $conn->real_escape_string($post_id);
+
+				$result = $conn->query(
+					"DELETE FROM post_likes WHERE post_id='$pid' AND user_id='$uid'"
+				);
+
+				if($result){
+					$msg = "Success";
+				} else{
+					$msg = $conn->error;
+				}
+
+				$conn->close();
+
+				return $msg;
+			} else{
+				return "Failure";
+			}
+		}
+
+		public function get_post_likes($post_id){
+			$db = new DBConnect;
+			$conn = $db->connect_db();
+			$rows = null;
+
+			//Check in the DB
+			$query = "SELECT * FROM post_likes WHERE post_id='$post_id'";
+			if($result = $conn->query($query)){
+				while($row = $result->fetch_assoc()){
+					$json[] = $row;
+				}
+				if(isset($json)){
+					$rows = json_encode($json);
+				}
+			} else {
+				$result = null;
+			}
+
+			$result->free();
+			$conn->close();
+
+			return $rows;
 		}
 		
 		private function hash_password($pwd){

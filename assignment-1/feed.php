@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT']."/hgv265/Lecture2/"."globals.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/hgv265/assignment-1/"."globals.php";
 	include_once $home_path.'error_reporting.php';
 	require_once $home_path.'db/dbQuery.php';
 	
@@ -24,113 +24,103 @@
 		<link rel="stylesheet" href="css/feed.css"></link>
 	</head>
 	<body>
-		<!--
-		<div>
-			<p>Logged in as <?php echo $username; ?></p>
-			<p><b>Hello <?php echo "$firstname $lastname"; ?>!</b></p>
-		<div>
-		<div>
-			<form action="phpscripts/post.php" method="POST">
-				<input value="<?php echo $user["id"]; ?>" type="text" style="display:none;" name="uid"/>
-				<textarea rows="4" cols="50" name="content"></textarea>
-				<input value="Submit Post" type="submit"/>
-			</form>
-		<div>
-		<div>
-			<form action="phpscripts/logout.php" method="POST">
-				<input value="Logout" type="submit"/>
-			</form>
-		<div>
-		-->
-		    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">CSWebTech</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="phpscripts/logout.php">Logout</a>
-                    </li>
-                    <!--<li>
-                        <a href="#">Link2</a>
-                    </li>
-                    <li>
-                        <a href="#">Link3</a>
-                    </li>-->
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">CSWebTech</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="phpscripts/logout.php">Logout</a>
+						</li>
+						<!--<li>
+							<a href="#">Link2</a>
+						</li>
+						<li>
+							<a href="#">Link3</a>
+						</li>-->
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container -->
+		</nav>
 
-    <!-- Page Content -->
-    <div class="container">
+		<!-- Page Content -->
+		<div class="container">
 
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>Welcome, <?php echo $firstname; ?></h2>
-				<form action="phpscripts/post.php" method="POST">
+			<div class="row">
+				<div class="col-lg-12">
+					<h2>Welcome, <?php echo $firstname; ?></h2>
 					<div class="form-group well">
-						<label for="content">New Post</label>
-						<input value="<?php echo $user["id"]; ?>" type="text" style="display:none;" name="uid"/>
-						<textarea class="form-control" style="resize: none;" rows="4" cols="50" id="content" name="content" required></textarea>
-						</br>
-						<input class="btn btn-default" value="Submit Post" type="submit"/>
-					</div>
-				</form>
-            </div>
-        </div>
-        <!-- /.row -->
-		
-		<!-- row -->
-		<div class="row">
-					<div class="col-md-12">
-						<div class="blog-comment">
-							<h3 class="text-info">Feed</h3>
-							<hr/>
-							<ul class="comments">
-								<li class="clearfix">
-								  <img src="http://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
-								  <div class="post-comments">
-									  <p class="meta">Dec 18, 2014 <a href="#">JohnDoe</a> says : <i class="pull-right"><a href="#"><small>Like</small></a> | <a href="#"><small>Dislike</small></a></i></p>
-									  <p>
-										  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										  Etiam a sapien odio, sit amet
-									  </p>
-								  </div>
-								</li>
-								<li class="clearfix">
-								  <img src="http://bootdey.com/img/Content/user_2.jpg" class="avatar" alt="">
-								  <div class="post-comments">
-									  <p class="meta">Dec 19, 2014 <a href="#">JohnDoe</a> says : <i class="pull-right"><a href="#"><small>Like</small></a> | <a href="#"><small>Dislike</small></a></i></p>
-									  <p>
-										  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										  Etiam a sapien odio, sit amet
-									  </p>
-								  </div>
-								
-								</li>
-							</ul>
-						</div>
+						<form action="phpscripts/post.php" method="POST" id="new-post">
+
+								<label for="content">New Post</label>
+								<textarea class="form-control" style="resize: none;" rows="4" cols="50" id="post_content" name="content" required></textarea>
+								</br>
+								<a class="btn btn-default createpost">Submit Post</a>
+
+						</form>
+						<span style="display:none;" id="submitting"><h3>Submitting..</h3></span>
 					</div>
 				</div>
-		<!-- /.row -->
+			</div>
+			<!-- /.row -->
 
-    </div>
-    <!-- /.container -->
-	<!-- Latest compiled and minified JavaScript -->
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="feed-post">
+						<h3 class="text-info">Feed</h3>
+						<hr/>
+						<div id="posts"></div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+
+		</div>
+    	<!-- /.container -->
+		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script>
+			$(document).ready(function(){
+				$("#posts").load('posts.php');
+			});
+			$('.createpost').click(function () {
+
+				var content = $('#post_content').val();
+				if(content.length <= 0){
+					alert("Nothing Entered!");
+				} else{
+					$('#new-post').hide();
+					$('#submitting').show();
+					$.ajax
+					({
+						url: 'phpscripts/post.php',
+						data: {"uid": <?php echo $user["id"]; ?>, "content": content},
+						type: 'post',
+						success: function (result) {
+							$('#post_content').val('');
+							$('#submitting').hide();
+							$('#new-post').show();
+							$("#posts").load('posts.php');
+						}
+					});
+				}
+			});
+		</script>
+
 	</body>
 </html>

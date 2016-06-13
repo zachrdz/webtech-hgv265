@@ -1,8 +1,12 @@
 <?php
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-	
+	$DEBUG_ENV = true;
+
+	if($DEBUG_ENV){
+		ini_set('display_errors', 1);
+		ini_set('display_startup_errors', 1);
+		error_reporting(E_ALL);
+	}
+
 	// Display info or error messages
 	foreach ($_GET as $key => $value) {
 		switch($key){
