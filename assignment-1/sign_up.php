@@ -130,7 +130,7 @@
 					<div class="col-sm-12">
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">Submit</button>
-							<button type="button" class="btn btn-default"><a href="login.php">Cancel</a></button>
+							<a class="btn btn-default" href="login.php">Cancel</a>
 						</div>
 					</div>
 				</div>
