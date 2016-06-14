@@ -10,8 +10,8 @@
 			$conn = $db->connect_db();
 			$row = null;
 			
-			$username = $conn->real_escape_string($username);
-			$pwd = $conn->real_escape_string($pwd);
+			$username = $this->sanitizeString($username);
+			$pwd = $this->sanitizeString($pwd);
 			
 			//Check in the DB
 			$query = "SELECT * FROM users WHERE username='$username'";
@@ -36,7 +36,7 @@
 			$conn = $db->connect_db();
 			$row = null;
 			
-			$username = $conn->real_escape_string($username);
+			$username = $this->sanitizeString($username);
 			
 			//Check in the DB
 			$query = "SELECT * FROM users WHERE username='$username'";
@@ -57,7 +57,7 @@
 			$conn = $db->connect_db();
 			$row = null;
 			
-			$uid = $conn->real_escape_string($uid);
+			$uid = $this->sanitizeString($uid);
 			
 			//Check in the DB
 			$query = "SELECT * FROM users WHERE id='$uid'";
@@ -79,20 +79,20 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 				
-				$username = $conn->real_escape_string($newUserInfo["username"]);
-				$email = $conn->real_escape_string($newUserInfo["email"]);
-				$pwd = $conn->real_escape_string($newUserInfo["password"]);
-				$firstname = $conn->real_escape_string($newUserInfo["firstname"]);
-				$lastname = $conn->real_escape_string($newUserInfo["lastname"]);
-				$dob = $conn->real_escape_string($newUserInfo["birthday"]);
-				$country = $conn->real_escape_string($newUserInfo["country"]);
-				$state = $conn->real_escape_string($newUserInfo["state"]);
-				$city = $conn->real_escape_string($newUserInfo["city"]);
-				$zipcode = $conn->real_escape_string($newUserInfo["zipcode"]);
-				$gender = $conn->real_escape_string($newUserInfo["gender"]);
-				$relationship_status = $conn->real_escape_string($newUserInfo["relationship_status"]);
-				$verification_question = $conn->real_escape_string($newUserInfo["verification_question"]);
-				$verification_answer = $conn->real_escape_string($newUserInfo["verification_answer"]);
+				$username = $this->sanitizeString($newUserInfo["username"]);
+				$email = $this->sanitizeString($newUserInfo["email"]);
+				$pwd = $this->sanitizeString($newUserInfo["password"]);
+				$firstname = $this->sanitizeString($newUserInfo["firstname"]);
+				$lastname = $this->sanitizeString($newUserInfo["lastname"]);
+				$dob = $this->sanitizeString($newUserInfo["birthday"]);
+				$country = $this->sanitizeString($newUserInfo["country"]);
+				$state = $this->sanitizeString($newUserInfo["state"]);
+				$city = $this->sanitizeString($newUserInfo["city"]);
+				$zipcode = $this->sanitizeString($newUserInfo["zipcode"]);
+				$gender = $this->sanitizeString($newUserInfo["gender"]);
+				$relationship_status = $this->sanitizeString($newUserInfo["relationship_status"]);
+				$verification_question = $this->sanitizeString($newUserInfo["verification_question"]);
+				$verification_answer = $this->sanitizeString($newUserInfo["verification_answer"]);
 				
 				$pass = $this->hash_password($pwd);
 				
@@ -121,9 +121,9 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 				
-				$username = $conn->real_escape_string($user["username"]);
-				$uid = $conn->real_escape_string($user["id"]);
-				$content = $conn->real_escape_string($content);
+				$username = $this->sanitizeString($user["username"]);
+				$uid = $this->sanitizeString($user["id"]);
+				$content = $this->sanitizeString($content);
 				
 				$result = $conn->query(
 					"INSERT INTO posts (`user_id`, `username`, `content`)
@@ -150,8 +150,8 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 
-				$uid = $conn->real_escape_string($user["id"]);
-				$pid = $conn->real_escape_string($post_id);
+				$uid = $this->sanitizeString($user["id"]);
+				$pid = $this->sanitizeString($post_id);
 
 				$result = $conn->query(
 					"DELETE FROM posts WHERE id='$pid' AND user_id='$uid'"
@@ -200,9 +200,10 @@
 			$db = new DBConnect;
 			$conn = $db->connect_db();
 			$rows = null;
+			$post_id = $this->sanitizeString($post_id);
 
 			//Check in the DB
-			$query = "SELECT * FROM comments WHERE id='$post_id'";
+			$query = "SELECT * FROM comments WHERE post_id='$post_id'";
 			if($result = $conn->query($query)){
 				while($row = $result->fetch_assoc()){
 					$json[] = $row;
@@ -227,10 +228,10 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 
-				$username = $conn->real_escape_string($user["username"]);
-				$uid = $conn->real_escape_string($user["id"]);
-				$pid = $conn->real_escape_string($post_id);
-				$content = $conn->real_escape_string($content);
+				$username = $this->sanitizeString($user["username"]);
+				$uid = $this->sanitizeString($user["id"]);
+				$pid = $this->sanitizeString($post_id);
+				$content = $this->sanitizeString($content);
 
 				$result = $conn->query(
 					"INSERT INTO comments (`user_id`, `post_id`, `username`, `content`)
@@ -257,8 +258,8 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 
-				$uid = $conn->real_escape_string($user["id"]);
-				$cid = $conn->real_escape_string($comment_id);
+				$uid = $this->sanitizeString($user["id"]);
+				$cid = $this->sanitizeString($comment_id);
 
 				$result = $conn->query(
 					"DELETE FROM comments WHERE id='$cid' AND user_id='$uid'"
@@ -284,9 +285,9 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 
-				$username = $conn->real_escape_string($user["username"]);
-				$uid = $conn->real_escape_string($user["id"]);
-				$pid = $conn->real_escape_string($post_id);
+				$username = $this->sanitizeString($user["username"]);
+				$uid = $this->sanitizeString($user["id"]);
+				$pid = $this->sanitizeString($post_id);
 
 				$result = $conn->query(
 					"INSERT INTO post_likes (`post_id`, `user_id`, `username`)
@@ -313,9 +314,8 @@
 				$db = new DBConnect;
 				$conn = $db->connect_db();
 
-				$username = $conn->real_escape_string($user["username"]);
-				$uid = $conn->real_escape_string($user["id"]);
-				$pid = $conn->real_escape_string($post_id);
+				$uid = $this->sanitizeString($user["id"]);
+				$pid = $this->sanitizeString($post_id);
 
 				$result = $conn->query(
 					"DELETE FROM post_likes WHERE post_id='$pid' AND user_id='$uid'"
@@ -339,6 +339,7 @@
 			$db = new DBConnect;
 			$conn = $db->connect_db();
 			$rows = null;
+			$post_id = $this->sanitizeString($post_id);
 
 			//Check in the DB
 			$query = "SELECT * FROM post_likes WHERE post_id='$post_id'";
@@ -363,6 +364,9 @@
 			$db = new DBConnect;
 			$conn = $db->connect_db();
 			$count = 0;
+
+			$post_id = $this->sanitizeString($post_id);
+			$user_id = $this->sanitizeString($user_id);
 
 			//Check in the DB
 			$query = "SELECT * FROM post_likes WHERE post_id='$post_id' AND user_id='$user_id'";
@@ -391,6 +395,19 @@
 
 			$hash = password_hash($pwd, PASSWORD_BCRYPT, $options);
 			return $hash;
+		}
+
+		private function sanitizeString($var){
+			$db = new DBConnect;
+			$conn = $db->connect_db();
+
+			$var = strip_tags($var);
+			$var = htmlentities($var);
+			$var = stripslashes($var);
+			$var = $conn->real_escape_string($var);
+
+			$conn->close();
+			return $var;
 		}
 	}
 

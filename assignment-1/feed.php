@@ -18,10 +18,14 @@
 ?>
 <html>
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Account Home</title>
 		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
-		<link rel="stylesheet" href="css/feed.css"></link>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+		<link> rel="stylesheet" href="css/feed.css">
 	</head>
 	<body>
 		<!-- Navigation -->
@@ -84,7 +88,10 @@
 					<div class="feed-post">
 						<h3 class="text-info">Feed</h3>
 						<hr/>
-						<div id="posts"></div>
+						<div id="posts">
+							<!-- Load posts into here -->
+							<img class="center-block" style="height: 50px;" src="http://growingmail.com/themes/growingmail/assets/img/loading_circle_large.gif"/>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -95,43 +102,9 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		<script>
-			$(document).ready(function(){
-				$("#posts").load('posts.php');
-			});
-			$('.createpost').click(function () {
 
-				var content = $('#post_content').val();
-				var user_id = $('#post_uid').val();
-				if(content.length <= 0){
-					alert("Nothing Entered!");
-				} else{
-					$('#new-post').hide();
-					$('#submitting').show();
-					$.ajax
-					({
-						url: 'phpscripts/post.php',
-						data: {"uid": user_id, "content": content},
-						type: 'post',
-						success: function (result) {
-							$('#post_content').val('');
-							$('#submitting').hide();
-							$('#new-post').show();
-							if(result == "Success"){
-								$("#posts").load('posts.php', function() {
-									$('#postInfoMsgCallback').html(
-										"<div class='alert alert-success alert-dismissible' role='alert'>"+
-											"<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+
-											"Post submitted successfully."+
-										"</div>"
-									);
-								});
-							}
-						}
-					});
-				}
-			});
-		</script>
+		<!-- Custom JS -->
+		<script src="js/feed.js"></script>
 
 	</body>
 </html>
